@@ -414,32 +414,15 @@ class BaseTable {
         return $object;
     }
 
-    public function eliminaMascaras($value){
-        $value = preg_replace('[^0-9]', '', $value);
-        $value = str_pad($value, 11, '0', STR_PAD_LEFT);
-        $value = str_replace(".", "", $value);
-        $value = str_replace("-", "", $value);
-        return $value;
-    }
-
-    function mask($val, $mask)
-    {
-     $maskared = '';
-     $k = 0;
-     for($i = 0; $i<=strlen($mask)-1; $i++)
-     {
-     if($mask[$i] == '#')
-     {
-     if(isset($val[$k]))
-     $maskared .= $val[$k++];
-     }
-     else
-     {
-     if(isset($mask[$i]))
-     $maskared .= $mask[$i];
-     }
-     }
-     return $maskared;
+    public function dateFormat($date){
+        @$TipoData = stristr($date, "/");
+        if($TipoData != false){
+            $Texto = explode("/",$date);
+            return $Texto[2]."-".$Texto[1]."-".$Texto[0];
+        }else{
+            $Texto = explode("-",$date);
+            return $Texto[2]."/".$Texto[1]."/".$Texto[0];
+         }
     }
 
 

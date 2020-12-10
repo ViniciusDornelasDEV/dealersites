@@ -40,11 +40,8 @@ class IndexController extends BaseController
   }
 
   public function indexAction(){
-    //get number of rows
-    $numRows = $this->requestPOST('rest/users/total', array(), $this->token);
-
+    
     return new ViewModel(array(
-      'numRows' =>  $numRows,
       'token'   =>  $this->token
     ));
   }

@@ -1,0 +1,217 @@
+
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="search-box">
+                            <i class="material-icons">account_circle</i>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="search-box">
+                            <i class="material-icons">date_range</i>
+                            <input type="text" class="form-control" id="start_date" name="start_date" placeholder="Login de">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="search-box">
+                            <i class="material-icons">date_range</i>
+                            <input type="text" class="form-control" id="end_date" name="end_date" placeholder="Até">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="search-box">
+                        <i class="material-icons">login</i>
+                        <select name="login_filter" id="login_filter" class="form-control">
+                          <option value="">Filtrar por nº de login</option>
+                          <option value="1">10 usuários que fizeram maior número de logins</option>
+                          <option value="2">10 usuários que menos fizeram logins</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+
+                      <button onclick="getUsers();" class="btn btn-primary rounded">
+                        <b>Pesquisar</b>
+                      </button>
+
+                      <button onclick="clearSearch();" class="btn btn-secondary rounded" style="margin-right: 10px;">
+                        <b>Limpar</b>
+                      </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                          <i class="material-icons" onclick="setOrder()"; data-toggle="tooltip" data-placement="top" title="Ordenação crescente ou decrescente">
+                            import_export
+                          </i> 
+                          Nome</th>
+                        <th>Email</th>
+                        <th>Nº de logins</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyUsersTable">
+                	<!-- AJAX CONTENT HERE! -->   
+                  <div class="loading" id="loading">
+                    <img src="<?= $this->basePath('/img/loading.gif'); ?>" style="position: absolute;">
+                  </div> 
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">
+                  <div class="search-box">
+                    <i class="material-icons">keyboard_arrow_down</i>
+                    <select class="select-pages" name="pages_count" id="pages_count">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                </div>
+                <ul id="pagination" class="pagination">
+                   
+                </ul>
+            </div>
+        </div>
+    </div>  
+</div> 
+
+<script type="text/javascript">
+  //Declare vars
+  var currentPage = 1;
+  var pageSize = $('#pages_count').val(); 
+  var numRows = 0;
+  var token = "<?= $token ?>";
+  var order = 'ASC';
+
+  function setOrder(){
+    if(order == 'ASC'){
+      order = 'DESC';
+    }else{
+      order = 'ASC';
+    }
+    getUsers();
+  }
+
+  //get new token
+  function getToken(){
+    $.ajax({
+      type: "POST",
+      url: "/generate/token",
+      success: function(generatedToken) {
+        token = generatedToken;
+      }
+    });
+  }
+
+  //pagination 
+  function paginate(){
+    $("#pagination").pagination({
+        items: numRows,
+        itemsOnPage: pageSize,
+        cssStyle: 'light-theme',
+        currentPage: currentPage
+    });
+  }
+
+  //on change page, refresh data
+  $("#pagination").click(function() {
+    currentPage = $("#pagination").pagination('getCurrentPage');
+    getUsers();
+  });
+
+  //on change page itens count, refresh data
+  $("#pages_count").change(function() {
+    pageSize = $('#pages_count').val();
+    getUsers();
+  });
+
+  function getUsers(){
+    //get params
+    var data = {
+      name: $('#name').val(), 
+      start_date: $('#start_date').val(), 
+      end_date: $('#end_date').val(), 
+      login_filter: $('#login_filter').val(),
+      order: order,
+      page_size: pageSize,
+      current_page: currentPage
+    };
+
+    //show loading div and call ajax users
+    $('#loading').css('visibility', 'visible');
+    $.ajax({
+      type: "POST",
+      url: "/rest/users",
+      data: data,
+      //set haders
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", token);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+      },
+      success: function(users) {
+        //if token invalid generate new token
+        if(users.error !== undefined){
+          //generate new token
+          getToken();
+
+          //call getUsers again
+          getUsers();
+        }else{
+          //if selected page is greater than total pages, set current page
+          numRows = users.total;
+          var totalPages = parseInt(users.total/pageSize);
+          if(currentPage > totalPages){
+            currentPage = totalPages;
+          }
+
+          //refresh pagination, render users and hide loading div
+          paginate();
+          renderUsers(users);
+          $('#loading').css('visibility', 'hidden');
+        }
+
+      }
+    });
+  }
+
+  function clearSearch(){
+    $('#name').val("");
+    $('#start_date').val("");
+    $('#end_date').val("");
+    $('#login_filter').val("");
+    getUsers();
+  }
+
+  function renderUsers(users){
+    $('#bodyUsersTable').html('');
+    Object.keys(users).forEach(function(user){
+      if(user != 'total'){
+        var status = 'Inativo';
+        if(users[user].active == 1){
+          status = 'Ativo';
+        }
+        $('#bodyUsersTable').append('<tr><td>'+users[user].name+'</td><td>'+users[user].email+'</td><td>'+users[user].acess_count+'</td><td>'+status+'</td></tr>');
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    getUsers();
+    $("#start_date").mask("99/99/9999");
+    $("#end_date").mask("99/99/9999");
+  });
+</script>

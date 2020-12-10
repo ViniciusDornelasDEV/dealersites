@@ -775,13 +775,13 @@ abstract class Base extends Form {
     }
 
     public function converterData($Data){
-        if(!empty($Data)){
-            if(strpos($Data, ' ')){
-                return self::ConverteTimestamp($Data);
-            }else{
-                return self::ConverteData($Data);
-            }
-         }
+      if(!empty($Data)){
+          if(strpos($Data, ' ')){
+              return self::ConverteTimestamp($Data);
+          }else{
+              return self::ConverteData($Data);
+          }
+       }
     }
     
     private function ConverteData($Data){
