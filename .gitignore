@@ -22,3 +22,6 @@ data/DoctrineORMModule/cache/
 # Legacy ZF1
 demos/
 extras/documentation
+module/application/language/fr_CA.po
+module/application/language/
+public/
