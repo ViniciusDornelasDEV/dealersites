@@ -85,18 +85,6 @@ class Module
                     
                     return $factory->createService();
                 },
-                'Mailer' => function() {
-                    $params = new arrayParams();
-                    $from = array(
-                        'name' => $params->getEmailName(),
-                        'email' => $params->getEmail(),
-                        'contact_details' => array());
-
-                    $mailer = new Service\Mailer($from);
-                    $mailer->setContactDetails($from['contact_details']);
-
-                    return $mailer;
-                },
                 'session' => function ($sm) {
                     $config = $sm->get('config');
                     if (isset($config['session'])) {
@@ -117,55 +105,9 @@ class Module
                         return new Session($session);
                     }
                 },
-                'Recurso' => function($sm) {
-                    $tableGateway = new TableGateway('tb_recurso', $sm->get('db_adapter_main'));
-                    $updates = new Model\Recurso($tableGateway);
-                    $updates->setServiceLocator($sm);
-                    return $updates;
-                },
             ),
         );
     }
-
-    public function verificaAcesso($session, $usuario, $rota = 'home') { 
-        $rotasPublicas = array('home');
-
-        if(in_array($rota, $rotasPublicas)) {
-            return true;
-        }
-
-        //verificar se usuário está logado (caso não esteja redir para login)
-        $auth = new AuthenticationService;
-        $auth->setStorage($session);
-        if(!$auth->hasIdentity()){
-            //redir para login 
-            return false;
-        }
-        $user = $auth->getIdentity();
-        if($user['id_usuario_tipo'] == 4){
-          $usuario = $this->serviceManager->get('Avaliador');
-          $user = $usuario->getUserData(array('tb_competicao_avaliador.id' => $user['id']));
-        }else{
-          $user = $usuario->getUserData(array('tb_usuario.id' => $user['id']));
-        }
-
-        //verificar se usuário tem permissão para acessar página (caso não tenha redir para logout)
-        $container = new Container();
-        if($container->acl->isAllowed($container->acl->getRole($user->perfil), $rota, $rota)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    protected function dispatchToLogout($event) {
-        $url = $event->getRouter()->assemble(array('controller' => 'Usuario\Controller\Usuario'), array('name' => 'logout'));
-        $response = $event->getResponse();
-        $response->getHeaders()->addHeaderLine('Location', $url);
-        $response->setStatusCode(302);
-        $response->sendHeaders();
-    }
-
 
     public function handleError(MvcEvent $event) {
         $result = $event->getResult(); 

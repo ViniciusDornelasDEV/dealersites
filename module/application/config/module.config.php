@@ -20,6 +20,17 @@ return array(
                     ),
                 ),
             ),
+
+            'generateToken' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/generate/token',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'generatetoken',
+                    ),
+                ),
+            ),
             
         ),
     ),

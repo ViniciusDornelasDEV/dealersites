@@ -20,9 +20,46 @@ use Rest\Classes\JwtAdapter;
 
 class IndexController extends BaseController
 {
+  private $token;
+  public function __construct(){
+    $container = new Container();
+    //check if token exists
+    $JwtAdapter = new JwtAdapter();
+    if(!isset($container['token']) || empty($container['token'])){
+      //generate token
+      $container['token'] = $JwtAdapter->generateToken('d3@l3rProcess0');
+    }
+
+    //if token expired, generate new token
+    $decoded = $JwtAdapter->decodeToken($container['token']);
+    if($decoded == 'Token expired'){
+      $container['token'] = $JwtAdapter->generateToken('d3@l3rProcess0');
+    }
+
+    $this->token = $container['token'];
+  }
 
   public function indexAction(){
-    die('index!');
+    //get number of rows
+    $numRows = $this->requestPOST('rest/users/total', array(), $this->token);
+
+    return new ViewModel(array(
+      'numRows' =>  $numRows,
+      'token'   =>  $this->token
+    ));
+  }
+
+  //gerar um novo token 
+  public function generatetokenAction(){
+    $container = new Container();
+    $JwtAdapter = new JwtAdapter();
+    $token = $JwtAdapter->generateToken('d3@l3rProcess0');
+    
+    $view = new ViewModel();
+    $view->setTerminal(true);
+    $view->setVariables(array('token' => $token));
+    return $view;
+    
   }
 
 }

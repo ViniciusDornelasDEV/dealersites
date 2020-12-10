@@ -8,7 +8,8 @@
 
 return  array(
     'modules' => array(
-        'application'
+        'application',
+        'rest'
     ),
     'module_listener_options' => array(
         'module_paths' => array(
