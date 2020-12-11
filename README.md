@@ -17,7 +17,7 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 	6 – Adicione ao final do que estiver lá o caminho do php: ;C:\wamp\bin\php\php5.5.12
 	7 – ok, ok, ok
 
-	<h2>2 - Configurando o Servidor Apache para mod_rewrite</h2>
+<h2>2 - Configurando o Servidor Apache para mod_rewrite</h2>
 	1 – Abra o arquivo httpd. conf do Apache, normalmente ele se encontra dentro da pasta conf dentro do diretório de instalação do Apache. (C:\wamp\bin\apache\apache2.4.9\conf\httpd.conf)
 	2 – Procure pela linha #LoadModule rewrite_module modules/mod_rewrite.so e retire o sustenido (#) inicial.
 	3 – Procure pela Tag <Directory>
@@ -29,7 +29,7 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 	9 – No final do arquivo adicione a linha "AccessFileName .htaccess" e estamos com o Apache configurado para mod_rewrite.
 
 
-	<h2>3 - Criando um Virtual Host para simular servidor remoto</h2>
+<h2>3 - Criando um Virtual Host para simular servidor remoto</h2>
 	
 	1 – Abra o arquivo C:\wamp\bin\apache\apache2.4.9\conf\httpd.conf
 	
@@ -53,7 +53,7 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 	6 – No final do arquivo insira a linha: 
 		127.0.0.1    dealersites.local
 	
-	<h2>4 – Configurando o projeto dealerSites</h2>
+<h2>4 – Configurando o projeto dealerSites</h2>
 	
 	1 – Faça download do projeto em:
 	https://github.com/arenasam/dealersites
@@ -68,7 +68,7 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 		
 	4 – Digite o comando “php composer.phar install”
 
-	<h2>5 – Configurando a base de dados</h2>
+<h2>5 – Configurando a base de dados</h2>
 	1 – Abra o navegador e digite (http://dealersites.local/phpmyadmin).
 	
 	2 – No canto superior esquerdo clique no link “New”.
