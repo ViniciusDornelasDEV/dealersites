@@ -18,6 +18,7 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 	7 – ok, ok, ok
 
 <h2>2 - Configurando o Servidor Apache para mod_rewrite</h2>
+	
 	1 – Abra o arquivo httpd. conf do Apache, normalmente ele se encontra dentro da pasta conf dentro do diretório de instalação do Apache. (C:\wamp\bin\apache\apache2.4.9\conf\httpd.conf)
 	2 – Procure pela linha #LoadModule rewrite_module modules/mod_rewrite.so e retire o sustenido (#) inicial.
 	3 – Procure pela Tag <Directory>
