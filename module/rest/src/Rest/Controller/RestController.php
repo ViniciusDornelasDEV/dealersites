@@ -44,20 +44,5 @@ class RestController extends AbstractRestfulController
     return new JsonModel($users);
   }
 
-  public function totalusersAction(){
-    //check if JWT token is valid
-    $JwtAdapter = new JwtAdapter();
-    $decoded = $JwtAdapter->decodeToken($_SERVER["HTTP_AUTHORIZATION"]);
-
-    if($decoded == 'Token expired' || $decoded->sub != 'd3@l3rProcess0'){
-      return new JsonModel(array('error' => 'Token inválido!'));
-    }
-
-    //get users
-    $users = $this->getServiceLocator()->get('Users')->getUsersByParams(array());
-    
-    return new JsonModel(array('numUsers' => $users->count()));
-  }
-
 }
 

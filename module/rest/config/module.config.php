@@ -12,17 +12,6 @@ return array(
                     ),
                 ),
             ),
-            'restTotalUsers' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/rest/users/total',
-                    'defaults' => array(
-                        'controller' => 'Rest\Controller\Rest',
-                        'action'     => 'totalusers',
-                    ),
-                ),
-            ),
-            
         ),
     ),
 
