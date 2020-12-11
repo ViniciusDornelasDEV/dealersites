@@ -1,12 +1,12 @@
 {
-    "name": " arenasam/dealerSites",
+    "name": " arenasam/dealersites",
     "description": "Teste DealerSites",
     "license": "BSD-3-Clause",
     "keywords": [
         "framework",
         "zf2"
     ],
-    "homepage": "https://dealersites.sistemaedelivery.com/",
+    "homepage": "https://github.com/arenasam/dealersites/",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
