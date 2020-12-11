@@ -67,6 +67,16 @@ https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.
 	5 – Selecione a opção “Importar” no menu superior.
 	6 – Selecione o arquivo “C:\wamp\www\dealerSites\sql\bd_dealer_sites.sql” e clique em “Executar”.
 
-	Acesse  http://dealersites.local em seu navegador.
 
-	Créditos: https://gilbertoalbino.com/zf2-tutorial-zend-framework-2-parte-01/#more-1066
+<h1>6 - Ativando cache do MySql - Opcional</h1>
+
+	1 - Abra o arquivo "C:\wamp\bin\mysql\mysql5.6.17\my.ini".
+	2 - Adicione as linhas no final do arquivo.
+		query_cache_type=1
+		query_cache_size=20M
+	3 - Reinicie o wampServer.
+		
+	
+Acesse  http://dealersites.local em seu navegador.
+
+Créditos: https://gilbertoalbino.com/zf2-tutorial-zend-framework-2-parte-01/#more-1066
