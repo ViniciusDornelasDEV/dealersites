@@ -1,18 +1,27 @@
 Baixe e instale o wampServer 2.5
+
+
+&nbsp;
 https://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.5/wampserver2.5-Apache-2.4.9-Mysql-5.6.17-php5.5.12-64b.exe/download
 
 
 
-Configurando o zend famework 2
-	1 - Caminho do PHP no sistema (apenas windows)
-IMPORTANTE: Seu PHP não será reconhecido como comando interno ou externo, pois seu PHP.exe não foi configurado como variável do ambiente do windows. Para resolver isto siga os procedimentos abaixo:
-1 – Clique com o botão direito em Meu Computador
-2 – Propriedades
-3 – Configurações Avançadas ou Aba Avançado
-4 – Variáveis de Ambiente
-5 – Procure e clique em “Path” e depois no botão “Editar”
-6 – Adicione ao final do que estiver lá o caminho do php: ;C:\wamp\bin\php\php5.5.12
-7 – ok, ok, ok
+<h1>Configurando o zend famework 2</h1>
+	<h2>1 - Caminho do PHP no sistema (apenas windows).</h2>
+	
+	
+	&nbsp;
+	IMPORTANTE: Seu PHP não será reconhecido como comando interno ou externo, pois seu PHP.exe não foi configurado como variável do ambiente do windows. Para resolver isto siga os procedimentos abaixo:
+	
+	
+	&nbsp;
+	1 – Clique com o botão direito em Meu Computador
+	2 – Propriedades
+	3 – Configurações Avançadas ou Aba Avançado
+	4 – Variáveis de Ambiente
+	5 – Procure e clique em “Path” e depois no botão “Editar”
+	6 – Adicione ao final do que estiver lá o caminho do php: ;C:\wamp\bin\php\php5.5.12
+	7 – ok, ok, ok
 
 	2 - Configurando o Servidor Apache para mod_rewrite
 	1 – Abra o arquivo httpd. conf do Apache, normalmente ele se encontra dentro da pasta conf dentro do diretório de instalação do Apache. (C:\wamp\bin\apache\apache2.4.9\conf\httpd.conf)
